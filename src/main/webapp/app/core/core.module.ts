@@ -3,11 +3,12 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import locale from '@angular/common/locales/en';
+import { FileUploaderComponent } from './file-uploader/file-uploader/file-uploader.component';
 
 @NgModule({
     imports: [HttpClientModule],
     exports: [],
-    declarations: [],
+    declarations: [FileUploaderComponent],
     providers: [
         Title,
         {
