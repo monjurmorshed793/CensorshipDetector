@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-censorship-status-heading">Create or edit a Censorship Status</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!censorshipStatus.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="censorshipStatus.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="censorshipStatus.status" id="field_status" >
+                        <option value="CENSORED">CENSORED</option>
+                        <option value="NOT_CENSORED">NOT_CENSORED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="censorshipStatus.description" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ooniStatus">Ooni Status</label>
+                    <input type="text" class="form-control" name="ooniStatus" id="field_ooniStatus"
+                        [(ngModel)]="censorshipStatus.ooniStatus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_webAddress">Web Address</label>
+                    <select class="form-control" id="field_webAddress" name="webAddress" [(ngModel)]="censorshipStatus.webAddress">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="webAddressOption.id === censorshipStatus.webAddress?.id ? censorshipStatus.webAddress : webAddressOption" *ngFor="let webAddressOption of webaddresses; trackBy: trackWebAddressById">{{webAddressOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isp">Isp</label>
+                    <select class="form-control" id="field_isp" name="isp" [(ngModel)]="censorshipStatus.isp">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="ispOption.id === censorshipStatus.isp?.id ? censorshipStatus.isp : ispOption" *ngFor="let ispOption of isps; trackBy: trackIspById">{{ispOption.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

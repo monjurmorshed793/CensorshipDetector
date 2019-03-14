@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity CensorshipStatus.
+    -->
+    <changeSet id="20190314135735-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableName="censorship_status"
+                                 constraintName="fk_censorship_status_web_address_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="web_address"/>
+
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableName="censorship_status"
+                                 constraintName="fk_censorship_status_isp_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="isp"/>
+
+    </changeSet>
+</databaseChangeLog>

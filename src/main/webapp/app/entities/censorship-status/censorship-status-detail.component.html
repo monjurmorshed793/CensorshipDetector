@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="censorshipStatus">
+            <h2><span>Censorship Status</span> {{censorshipStatus.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{censorshipStatus.status}}</span>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{censorshipStatus.description}}</span>
+                </dd>
+                <dt><span>Ooni Status</span></dt>
+                <dd>
+                    <span>{{censorshipStatus.ooniStatus}}</span>
+                </dd>
+                <dt><span>Web Address</span></dt>
+                <dd>
+                    <div *ngIf="censorshipStatus.webAddress">
+                        <a [routerLink]="['/web-address', censorshipStatus.webAddress?.id, 'view']">{{censorshipStatus.webAddress?.name}}</a>
+                    </div>
+                </dd>
+                <dt><span>Isp</span></dt>
+                <dd>
+                    <div *ngIf="censorshipStatus.isp">
+                        <a [routerLink]="['/isp', censorshipStatus.isp?.id, 'view']">{{censorshipStatus.isp?.name}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/censorship-status', censorshipStatus.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

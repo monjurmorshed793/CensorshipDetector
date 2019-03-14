@@ -4,6 +4,18 @@ import { RouterModule } from '@angular/router';
 @NgModule({
     imports: [
         RouterModule.forChild([
+            {
+                path: 'web-address',
+                loadChildren: './web-address/web-address.module#CensorshipDetectorWebAddressModule'
+            },
+            {
+                path: 'isp',
+                loadChildren: './isp/isp.module#CensorshipDetectorIspModule'
+            },
+            {
+                path: 'censorship-status',
+                loadChildren: './censorship-status/censorship-status.module#CensorshipDetectorCensorshipStatusModule'
+            }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
     ],
