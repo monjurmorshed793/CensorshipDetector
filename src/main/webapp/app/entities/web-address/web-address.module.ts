@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { FileUploadModule } from 'ng2-file-upload';
 import { CensorshipDetectorSharedModule } from 'app/shared';
 import {
     WebAddressComponent,
@@ -15,7 +16,7 @@ import {
 const ENTITY_STATES = [...webAddressRoute, ...webAddressPopupRoute];
 
 @NgModule({
-    imports: [CensorshipDetectorSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [CensorshipDetectorSharedModule, FileUploadModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         WebAddressComponent,
         WebAddressDetailComponent,

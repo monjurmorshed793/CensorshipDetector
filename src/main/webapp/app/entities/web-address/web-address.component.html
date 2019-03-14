@@ -1,12 +1,21 @@
 <div>
     <h2 id="page-heading">
         <span>Web Addresses</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-web-address" [routerLink]="['/web-address/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
+        <div class="btn-group float-right">
+            <button id="jh-create-entity" class="btn btn-primary jh-create-entity create-web-address" [routerLink]="['/web-address/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span class="hidden-sm-down" >
             Create new Web Address
             </span>
-        </button>
+            </button>
+            <button id="jh-upload-file" class="btn btn-success  jh-upload-file create-web-address"  [routerLink]="['/web-address/new']">
+                <fa-icon [icon]="'upload'"></fa-icon>
+                <span class="hidden-sm-down" >
+            <i class="fas fa-upload"></i>Upload Excel File
+            </span>
+            </button>
+        </div>
+
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
