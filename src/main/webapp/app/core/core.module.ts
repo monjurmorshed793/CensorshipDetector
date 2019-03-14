@@ -7,9 +7,10 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FileUploaderComponent } from 'app/core/file-uploader/file-uploader.component';
 import { RouterModule } from '@angular/router';
 import { coreState } from 'app/core/core.route';
+import { CensorshipDetectorHomeModule } from 'app/home';
 
 @NgModule({
-    imports: [HttpClientModule, FileUploadModule, RouterModule.forChild(coreState)],
+    imports: [HttpClientModule, FileUploadModule, CensorshipDetectorHomeModule, RouterModule.forChild(coreState)],
     exports: [],
     declarations: [FileUploaderComponent],
     providers: [

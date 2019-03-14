@@ -17,7 +17,9 @@ export class HomeComponent implements OnInit {
         private accountService: AccountService,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager
-    ) {}
+    ) {
+        console.log('In home component###############');
+    }
 
     ngOnInit() {
         this.accountService.identity().then((account: Account) => {
