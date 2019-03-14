@@ -21,7 +21,6 @@ import { CensorshipDetectorEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
-import { FileUploaderComponent } from './webapp/app/core/file-uploader/file-uploader/file-uploader.component';
 
 @NgModule({
     imports: [
@@ -41,7 +40,7 @@ import { FileUploaderComponent } from './webapp/app/core/file-uploader/file-uplo
         CensorshipDetectorEntityModule,
         CensorshipDetectorAppRoutingModule
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, FileUploaderComponent],
+    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
