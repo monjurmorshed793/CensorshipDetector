@@ -8,9 +8,10 @@ import { FileUploaderComponent } from 'app/core/file-uploader/file-uploader.comp
 import { RouterModule } from '@angular/router';
 import { coreState } from 'app/core/core.route';
 import { CensorshipDetectorHomeModule } from 'app/home';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
-    imports: [HttpClientModule, FileUploadModule, CensorshipDetectorHomeModule, RouterModule.forChild(coreState)],
+    imports: [HttpClientModule, FileUploadModule, NotifierModule, CensorshipDetectorHomeModule, RouterModule.forChild(coreState)],
     exports: [],
     declarations: [FileUploaderComponent],
     providers: [

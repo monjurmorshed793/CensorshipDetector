@@ -4,6 +4,7 @@ import { FileUploaderService } from 'app/core';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IWebAddress } from 'app/shared/model/web-address.model';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
     selector: 'jhi-file-uploader',
@@ -14,7 +15,7 @@ export class FileUploaderComponent implements OnInit {
     file: any = {};
     url: string = '';
 
-    constructor(private fileUploadService: FileUploaderService) {}
+    constructor(private fileUploadService: FileUploaderService, private notifierService: NotifierService) {}
 
     assignFileToModel(event) {
         console.log('In the event');
@@ -32,6 +33,7 @@ export class FileUploaderComponent implements OnInit {
         result.subscribe((res: HttpResponse<IWebAddress>) => this.onSaveSuccess(), (res: HttpErrorResponse) => console.error(res));
     }
     protected onSaveSuccess() {
+        this.notifierService.notify('success', 'Excel file successfully extracted');
         this.previousState();
     }
     ngOnInit() {}
