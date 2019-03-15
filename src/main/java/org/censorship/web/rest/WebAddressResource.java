@@ -1,4 +1,5 @@
 package org.censorship.web.rest;
+import com.google.gson.JsonObject;
 import org.censorship.domain.WebAddress;
 import org.censorship.repository.WebAddressRepository;
 import org.censorship.repository.search.WebAddressSearchRepository;
@@ -12,9 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -63,6 +66,18 @@ public class WebAddressResource {
         return ResponseEntity.created(new URI("/api/web-addresses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @RequestMapping(value = "/web-address-file-upload",
+        produces ={"application/json"},
+        consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+        method = RequestMethod.POST
+    )
+    public ResponseEntity<String> uploadExcelFile(@RequestParam("file") File file) throws URISyntaxException{
+        log.debug("REST request to upload excel file");
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createAlert("File Successfully Uploaded",""))
+            .body("success");
     }
 
     /**

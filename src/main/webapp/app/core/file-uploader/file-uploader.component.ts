@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { FileUploaderService } from 'app/core';
+import { Observable } from 'rxjs';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { IWebAddress } from 'app/shared/model/web-address.model';
 
 @Component({
     selector: 'jhi-file-uploader',
@@ -14,10 +17,17 @@ export class FileUploaderComponent implements OnInit {
     constructor(private fileUploadService: FileUploaderService) {}
 
     upload() {
-        console.log('Update params');
-        console.log(this.fileUploadService.url);
+        let formData: FormData = new FormData();
+        formData.append('file', this.file[0], 'filename.xls');
+        this.subscribeToSaveResponse(this.fileUploadService.upload(formData, this.fileUploadService.url));
     }
 
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IWebAddress>>) {
+        result.subscribe((res: HttpResponse<IWebAddress>) => this.onSaveSuccess(), (res: HttpErrorResponse) => console.error(res));
+    }
+    protected onSaveSuccess() {
+        this.previousState();
+    }
     ngOnInit() {}
 
     previousState() {

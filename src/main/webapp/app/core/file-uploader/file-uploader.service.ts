@@ -12,6 +12,6 @@ export class FileUploaderService {
     constructor(private http: HttpClient) {}
 
     upload(file: any, url: string): Observable<HttpResponse<any>> {
-        return this.http.post<any>(url, file, { observe: 'response' });
+        return this.http.post<any>('/api/' + url, file, { observe: 'response' });
     }
 }
