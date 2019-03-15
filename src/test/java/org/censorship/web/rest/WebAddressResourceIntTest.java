@@ -5,6 +5,7 @@ import org.censorship.CensorshipDetectorApp;
 import org.censorship.domain.WebAddress;
 import org.censorship.repository.WebAddressRepository;
 import org.censorship.repository.search.WebAddressSearchRepository;
+import org.censorship.service.ExcelWebAddressFileExtractionService;
 import org.censorship.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -51,6 +52,8 @@ public class WebAddressResourceIntTest {
 
     @Autowired
     private WebAddressRepository webAddressRepository;
+    @Autowired
+    private ExcelWebAddressFileExtractionService excelWebAddressFileExtractionService;
 
     /**
      * This repository is mocked in the org.censorship.repository.search test package.
@@ -82,7 +85,7 @@ public class WebAddressResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final WebAddressResource webAddressResource = new WebAddressResource(webAddressRepository, mockWebAddressSearchRepository);
+        final WebAddressResource webAddressResource = new WebAddressResource(webAddressRepository, mockWebAddressSearchRepository, excelWebAddressFileExtractionService);
         this.restWebAddressMockMvc = MockMvcBuilders.standaloneSetup(webAddressResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

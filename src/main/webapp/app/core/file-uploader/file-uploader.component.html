@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <input  type="file" ngModel="file">
+        <input  type="file" (change)="assignFileToModel($event)">
     </div>
 </div>
 <br/>

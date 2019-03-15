@@ -1,8 +1,10 @@
 package org.censorship.web.rest;
 import com.google.gson.JsonObject;
+import org.censorship.CensorshipUtil;
 import org.censorship.domain.WebAddress;
 import org.censorship.repository.WebAddressRepository;
 import org.censorship.repository.search.WebAddressSearchRepository;
+import org.censorship.service.ExcelWebAddressFileExtractionService;
 import org.censorship.web.rest.errors.BadRequestAlertException;
 import org.censorship.web.rest.util.HeaderUtil;
 import org.censorship.web.rest.util.PaginationUtil;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.net.URI;
@@ -43,9 +46,13 @@ public class WebAddressResource {
 
     private final WebAddressSearchRepository webAddressSearchRepository;
 
-    public WebAddressResource(WebAddressRepository webAddressRepository, WebAddressSearchRepository webAddressSearchRepository) {
+    private final ExcelWebAddressFileExtractionService excelWebAddressFileExtractionService;
+
+
+    public WebAddressResource(WebAddressRepository webAddressRepository, WebAddressSearchRepository webAddressSearchRepository, ExcelWebAddressFileExtractionService excelWebAddressFileExtractionService) {
         this.webAddressRepository = webAddressRepository;
         this.webAddressSearchRepository = webAddressSearchRepository;
+        this.excelWebAddressFileExtractionService = excelWebAddressFileExtractionService;
     }
 
     /**
@@ -68,13 +75,10 @@ public class WebAddressResource {
             .body(result);
     }
 
-    @RequestMapping(value = "/web-address-file-upload",
-        produces ={"application/json"},
-        consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-        method = RequestMethod.POST
-    )
-    public ResponseEntity<String> uploadExcelFile(@RequestParam("file") File file) throws URISyntaxException{
+    @PostMapping(value = "/web-address-file-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadExcelFile(@RequestParam("file") MultipartFile file) throws URISyntaxException, Exception{
         log.debug("REST request to upload excel file");
+        excelWebAddressFileExtractionService.extractExcelData(CensorshipUtil.multipartToFile(file));
         return ResponseEntity.ok()
             .headers(HeaderUtil.createAlert("File Successfully Uploaded",""))
             .body("success");

@@ -16,9 +16,15 @@ export class FileUploaderComponent implements OnInit {
 
     constructor(private fileUploadService: FileUploaderService) {}
 
+    assignFileToModel(event) {
+        console.log('In the event');
+        console.log(event);
+        this.file = event.target.files[0];
+    }
+
     upload() {
         let formData: FormData = new FormData();
-        formData.append('file', this.file[0], 'filename.xls');
+        formData.append('file', this.file, 'filename.xls');
         this.subscribeToSaveResponse(this.fileUploadService.upload(formData, this.fileUploadService.url));
     }
 
