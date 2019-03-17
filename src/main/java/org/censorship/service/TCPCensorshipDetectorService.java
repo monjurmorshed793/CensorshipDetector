@@ -32,7 +32,7 @@ public class TCPCensorshipDetectorService {
             @Override
             public void gotPacket(Packet packet) {
                 log.info(handle.getTimestamp().toString());
-                log.info(packet.toString());
+                log.info(packet.getHeader().toString());
             }
         };
         int maxPackets = 50;
