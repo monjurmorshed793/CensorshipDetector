@@ -10,6 +10,9 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { CensorshipStatusService } from './censorship-status.service';
+import { IspService } from 'app/entities/isp';
+import { IIsp, Isp } from 'app/shared/model/isp.model';
+import { Select2OptionData } from 'ng-select2';
 
 @Component({
     selector: 'jhi-censorship-status',
@@ -17,6 +20,8 @@ import { CensorshipStatusService } from './censorship-status.service';
 })
 export class CensorshipStatusComponent implements OnInit, OnDestroy {
     censorshipStatuses: ICensorshipStatus[];
+    ispList: IIsp[];
+    selectedIsp: IIsp;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -26,6 +31,7 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    ispMap: { [key: number]: IIsp };
 
     constructor(
         protected censorshipStatusService: CensorshipStatusService,
@@ -33,11 +39,14 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected ispService: IspService
     ) {
         this.censorshipStatuses = [];
+        this.ispList = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
+        this.ispMap = {};
         this.links = {
             last: 0
         };
@@ -47,6 +56,19 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
+    }
+
+    loadAllIspList() {
+        this.ispService
+            .query({
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IIsp[]>) => {
+                    this.ispList = res.body;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     loadAll() {
@@ -74,6 +96,7 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
                 (res: HttpResponse<ICensorshipStatus[]>) => this.paginateCensorshipStatuses(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.loadAllIspList();
     }
 
     reset() {

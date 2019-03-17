@@ -22,6 +22,8 @@ import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 import { NotifierModule } from 'angular-notifier';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
     imports: [
@@ -34,6 +36,8 @@ import { NotifierModule } from 'angular-notifier';
         }),
         FileUploadModule,
         NotifierModule,
+        NgSelect2Module,
+        BrowserAnimationsModule,
         CensorshipDetectorSharedModule.forRoot(),
         CensorshipDetectorCoreModule,
         CensorshipDetectorHomeModule,

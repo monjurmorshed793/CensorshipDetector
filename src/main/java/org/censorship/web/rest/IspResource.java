@@ -101,6 +101,13 @@ public class IspResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/isps/without-pagination")
+    public ResponseEntity<List<Isp>> getAllIspListWithoutPagination(){
+        log.debug("REST request to get all isp list without pagination");
+        List<Isp> ispList = ispRepository.findAll();
+        return ResponseEntity.ok().body(ispList);
+    }
+
     /**
      * GET  /isps/:id : get the "id" isp.
      *

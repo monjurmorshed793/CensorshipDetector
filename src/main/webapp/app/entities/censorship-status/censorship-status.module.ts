@@ -11,6 +11,7 @@ import {
     censorshipStatusRoute,
     censorshipStatusPopupRoute
 } from './';
+import { CensorshipDetectorIspModule } from 'app/entities/isp/isp.module';
 
 const ENTITY_STATES = [...censorshipStatusRoute, ...censorshipStatusPopupRoute];
 
