@@ -346,6 +346,22 @@
             <artifactId>jxls-poi</artifactId>
             <version>${jxls-poi-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.pcap4j</groupId>
+            <artifactId>pcap4j-core</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.pcap4j</groupId>
+            <artifactId>pcap4j-packetfactory-static</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.nmap4j</groupId>
+            <artifactId>org.nmap4j</artifactId>
+            <version>1.0.4</version>
+            <type>pom</type>
+        </dependency>
 
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
