@@ -58,7 +58,7 @@ public class TCPCensorshipDetectorService {
                 IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
 
                 log.info("IPV4 packets");
-                log.info(ipV4Packet.getHeader().getIdentification()+"");
+                log.info(ipV4Packet.toString());
 
             }
             //log.info(packet.toString());
