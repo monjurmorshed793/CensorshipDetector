@@ -1,0 +1,79 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="packetInformation">
+            <h2><span>Packet Information</span> {{packetInformation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Source Address</span></dt>
+                <dd>
+                    <span>{{packetInformation.sourceAddress}}</span>
+                </dd>
+                <dt><span>Destination Address</span></dt>
+                <dd>
+                    <span>{{packetInformation.destinationAddress}}</span>
+                </dd>
+                <dt><span>Window</span></dt>
+                <dd>
+                    <span>{{packetInformation.window}}</span>
+                </dd>
+                <dt><span>Identification Number</span></dt>
+                <dd>
+                    <span>{{packetInformation.identificationNumber}}</span>
+                </dd>
+                <dt><span>Sequence Number</span></dt>
+                <dd>
+                    <span>{{packetInformation.sequenceNumber}}</span>
+                </dd>
+                <dt><span>Source Port</span></dt>
+                <dd>
+                    <span>{{packetInformation.sourcePort}}</span>
+                </dd>
+                <dt><span>Destination Port</span></dt>
+                <dd>
+                    <span>{{packetInformation.destinationPort}}</span>
+                </dd>
+                <dt><span>Acknowledge Number</span></dt>
+                <dd>
+                    <span>{{packetInformation.acknowledgeNumber}}</span>
+                </dd>
+                <dt><span>Ttl</span></dt>
+                <dd>
+                    <span>{{packetInformation.ttl}}</span>
+                </dd>
+                <dt><span>Syn</span></dt>
+                <dd>
+                    <span>{{packetInformation.syn}}</span>
+                </dd>
+                <dt><span>Fin</span></dt>
+                <dd>
+                    <span>{{packetInformation.fin}}</span>
+                </dd>
+                <dt><span>Ack</span></dt>
+                <dd>
+                    <span>{{packetInformation.ack}}</span>
+                </dd>
+                <dt><span>Last Modified</span></dt>
+                <dd>
+                    <span>{{packetInformation.lastModified}}</span>
+                </dd>
+                <dt><span>Protocol</span></dt>
+                <dd>
+                    <span>{{packetInformation.protocol}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/packet-information', packetInformation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

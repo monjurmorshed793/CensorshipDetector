@@ -1,0 +1,95 @@
+<div>
+    <h2 id="page-heading">
+        <span>Packet Informations</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-packet-information" [routerLink]="['/packet-information/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Packet Information
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="packetInformations">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sourceAddress"><span>Source Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="destinationAddress"><span>Destination Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="window"><span>Window</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="identificationNumber"><span>Identification Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sequenceNumber"><span>Sequence Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sourcePort"><span>Source Port</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="destinationPort"><span>Destination Port</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="acknowledgeNumber"><span>Acknowledge Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ttl"><span>Ttl</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="syn"><span>Syn</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fin"><span>Fin</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ack"><span>Ack</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="lastModified"><span>Last Modified</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="protocol"><span>Protocol</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let packetInformation of packetInformations ;trackBy: trackId">
+                <td><a [routerLink]="['/packet-information', packetInformation.id, 'view' ]">{{packetInformation.id}}</a></td>
+                <td>{{packetInformation.sourceAddress}}</td>
+                <td>{{packetInformation.destinationAddress}}</td>
+                <td>{{packetInformation.window}}</td>
+                <td>{{packetInformation.identificationNumber}}</td>
+                <td>{{packetInformation.sequenceNumber}}</td>
+                <td>{{packetInformation.sourcePort}}</td>
+                <td>{{packetInformation.destinationPort}}</td>
+                <td>{{packetInformation.acknowledgeNumber}}</td>
+                <td>{{packetInformation.ttl}}</td>
+                <td>{{packetInformation.syn}}</td>
+                <td>{{packetInformation.fin}}</td>
+                <td>{{packetInformation.ack}}</td>
+                <td>{{packetInformation.lastModified | date:'medium'}}</td>
+                <td>{{packetInformation.protocol}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/packet-information', packetInformation.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/packet-information', packetInformation.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'packet-information', { outlets: { popup: packetInformation.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

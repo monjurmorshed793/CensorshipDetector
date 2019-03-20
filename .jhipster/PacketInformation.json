@@ -1,0 +1,71 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "sourceAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "destinationAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "window",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "identificationNumber",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "sequenceNumber",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "sourcePort",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "destinationPort",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "acknowledgeNumber",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ttl",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "syn",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ack",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lastModified",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "protocol",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190320145615",
+    "dto": "no",
+    "searchEngine": "elasticsearch",
+    "service": "no",
+    "entityTableName": "packet_information",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll"
+}

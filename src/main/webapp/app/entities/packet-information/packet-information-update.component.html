@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-packet-information-heading">Create or edit a Packet Information</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!packetInformation.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="packetInformation.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_sourceAddress">Source Address</label>
+                    <input type="text" class="form-control" name="sourceAddress" id="field_sourceAddress"
+                        [(ngModel)]="packetInformation.sourceAddress" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_destinationAddress">Destination Address</label>
+                    <input type="text" class="form-control" name="destinationAddress" id="field_destinationAddress"
+                        [(ngModel)]="packetInformation.destinationAddress" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_window">Window</label>
+                    <input type="number" class="form-control" name="window" id="field_window"
+                        [(ngModel)]="packetInformation.window" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_identificationNumber">Identification Number</label>
+                    <input type="number" class="form-control" name="identificationNumber" id="field_identificationNumber"
+                        [(ngModel)]="packetInformation.identificationNumber" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_sequenceNumber">Sequence Number</label>
+                    <input type="number" class="form-control" name="sequenceNumber" id="field_sequenceNumber"
+                        [(ngModel)]="packetInformation.sequenceNumber" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_sourcePort">Source Port</label>
+                    <input type="number" class="form-control" name="sourcePort" id="field_sourcePort"
+                        [(ngModel)]="packetInformation.sourcePort" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_destinationPort">Destination Port</label>
+                    <input type="number" class="form-control" name="destinationPort" id="field_destinationPort"
+                        [(ngModel)]="packetInformation.destinationPort" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_acknowledgeNumber">Acknowledge Number</label>
+                    <input type="number" class="form-control" name="acknowledgeNumber" id="field_acknowledgeNumber"
+                        [(ngModel)]="packetInformation.acknowledgeNumber" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ttl">Ttl</label>
+                    <input type="number" class="form-control" name="ttl" id="field_ttl"
+                        [(ngModel)]="packetInformation.ttl" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_syn">Syn</label>
+                    <input type="text" class="form-control" name="syn" id="field_syn"
+                        [(ngModel)]="packetInformation.syn" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fin">Fin</label>
+                    <input type="text" class="form-control" name="fin" id="field_fin"
+                        [(ngModel)]="packetInformation.fin" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ack">Ack</label>
+                    <input type="text" class="form-control" name="ack" id="field_ack"
+                        [(ngModel)]="packetInformation.ack" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lastModified">Last Modified</label>
+                    <div class="d-flex">
+                        <input id="field_lastModified" type="datetime-local" class="form-control" name="lastModified" [(ngModel)]="lastModified" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_protocol">Protocol</label>
+                    <input type="text" class="form-control" name="protocol" id="field_protocol"
+                        [(ngModel)]="packetInformation.protocol" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

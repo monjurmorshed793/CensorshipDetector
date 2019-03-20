@@ -1,0 +1,18 @@
+entity PacketInformation{
+	sourceAddress String,
+	destinationAddress String,
+	window Integer,
+    identificationNumber Integer,
+    sequenceNumber Integer,
+    sourcePort Integer,
+    destinationPort Integer,
+    acknowledgeNumber Integer,
+    ttl Integer,
+    syn String,
+    fin String,
+    ack String,
+    protocol Integer,
+    lastModified Instant
+}
+
+paginate PacketInformation with infinite-scroll
