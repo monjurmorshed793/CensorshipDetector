@@ -4,6 +4,7 @@ import org.pcap4j.core.*;
 import org.pcap4j.packet.ArpPacket;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
+import org.pcap4j.packet.TcpPacket;
 import org.pcap4j.util.NifSelector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,12 +55,23 @@ public class TCPCensorshipDetectorService {
                 ArpPacket arpPacket = packet.get(ArpPacket.class);
                 log.info(packet.toString());
             }
-            if (packet.contains(IpV4Packet.class)) {
+            /*if (packet.contains(IpV4Packet.class)) {
                 IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
 
                 log.info("IPV4 packets");
-                log.info(ipV4Packet.toString());
+//                log.info(ipV4Packet.toString());
+                log.info(ipV4Packet.getHeader().getTos().toString());
+                log.info(ipV4Packet.getHeader().getIdentification()+"");
+                log.info(ipV4Packet.getHeader().getIdentificationAsInt()+"");
+                log.info(ipV4Packet.getHeader().getIhl()+"");
+                log.info(ipV4Packet.getHeader().getIhlAsInt()+"");
 
+                log.info(ipV4Packet.getPayload().getBuilder().toString());
+
+            }*/
+            if(packet.contains(TcpPacket.class)){
+                TcpPacket tcpPacket = packet.get(TcpPacket.class);
+//                log.info(tcpPacket.getHeader().);
             }
             //log.info(packet.toString());
         }

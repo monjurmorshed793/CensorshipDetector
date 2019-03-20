@@ -6,6 +6,7 @@ import org.censorship.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.apache.commons.lang3.StringUtils;
+import org.censorship.service.TCPCensorshipDetectorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -27,10 +28,15 @@ public class CensorshipDetectorApp {
     private static final Logger log = LoggerFactory.getLogger(CensorshipDetectorApp.class);
 
     private final Environment env;
+    private TCPCensorshipDetectorService tcpCensorshipDetectorService;
 
-    public CensorshipDetectorApp(Environment env) {
+
+    public CensorshipDetectorApp(Environment env, TCPCensorshipDetectorService tcpCensorshipDetectorService) {
         this.env = env;
+        this.tcpCensorshipDetectorService = tcpCensorshipDetectorService;
     }
+
+
 
     /**
      * Initializes CensorshipDetector.
@@ -40,7 +46,8 @@ public class CensorshipDetectorApp {
      * You can find more information on how profiles work with JHipster on <a href="https://www.jhipster.tech/profiles/">https://www.jhipster.tech/profiles/</a>.
      */
     @PostConstruct
-    public void initApplication() {
+    public void initApplication() throws Exception {
+        tcpCensorshipDetectorService.sniffPackets();;
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)) {
             log.error("You have misconfigured your application! It should not run " +
