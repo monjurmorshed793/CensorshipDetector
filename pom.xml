@@ -73,6 +73,8 @@
         <scala-maven-plugin.version>3.4.2</scala-maven-plugin.version>
         <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
         <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
+        <jxls-poi-version>1.0.9</jxls-poi-version>
+
 
         <!-- Sonar properties -->
         <sonar.host.url>http://localhost:9001</sonar.host.url>
@@ -339,6 +341,28 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-messaging</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls-poi</artifactId>
+            <version>${jxls-poi-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.pcap4j</groupId>
+            <artifactId>pcap4j-core</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.pcap4j</groupId>
+            <artifactId>pcap4j-packetfactory-static</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.nmap4j</groupId>
+            <artifactId>org.nmap4j</artifactId>
+            <version>1.0.4</version>
+            <type>pom</type>
+        </dependency>-->
+
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
 
