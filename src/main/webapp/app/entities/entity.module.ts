@@ -15,6 +15,18 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'censorship-status',
                 loadChildren: './censorship-status/censorship-status.module#CensorshipDetectorCensorshipStatusModule'
+            },
+            {
+                path: 'packet-information',
+                loadChildren: './packet-information/packet-information.module#CensorshipDetectorPacketInformationModule'
+            },
+            {
+                path: 'packet-information',
+                loadChildren: './packet-information/packet-information.module#CensorshipDetectorPacketInformationModule'
+            },
+            {
+                path: 'packet-information',
+                loadChildren: './packet-information/packet-information.module#CensorshipDetectorPacketInformationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

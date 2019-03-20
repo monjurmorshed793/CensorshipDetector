@@ -19,6 +19,8 @@ public class TCPCensorshipDetectorService {
 
     private final Logger log = LoggerFactory.getLogger(TCPCensorshipDetectorService.class);
 
+
+
     public List<PcapNetworkInterface> detectNetworkDevices() throws Exception, PcapNativeException, NotOpenException {
         List<PcapNetworkInterface> allDevices = null;
         allDevices = Pcaps.findAllDevs();
