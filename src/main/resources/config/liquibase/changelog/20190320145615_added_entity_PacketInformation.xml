@@ -70,11 +70,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="protocol" type="integer">
+            <column name="last_modified" type="datetime">
                 <constraints nullable="true" />
             </column>
 
-            <column name="last_modified" type="datetime">
+            <column name="protocol" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

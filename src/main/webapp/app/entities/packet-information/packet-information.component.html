@@ -42,8 +42,8 @@
             <th jhiSortBy="syn"><span>Syn</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fin"><span>Fin</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="ack"><span>Ack</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="protocol"><span>Protocol</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="lastModified"><span>Last Modified</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="protocol"><span>Protocol</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -62,8 +62,8 @@
                 <td>{{packetInformation.syn}}</td>
                 <td>{{packetInformation.fin}}</td>
                 <td>{{packetInformation.ack}}</td>
-                <td>{{packetInformation.protocol}}</td>
                 <td>{{packetInformation.lastModified | date:'medium'}}</td>
+                <td>{{packetInformation.protocol}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

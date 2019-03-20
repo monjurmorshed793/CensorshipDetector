@@ -59,11 +59,11 @@ public class PacketInformation implements Serializable {
     @Column(name = "ack")
     private String ack;
 
-    @Column(name = "protocol")
-    private Integer protocol;
-
     @Column(name = "last_modified")
     private Instant lastModified;
+
+    @Column(name = "protocol")
+    private String protocol;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -230,19 +230,6 @@ public class PacketInformation implements Serializable {
         this.ack = ack;
     }
 
-    public Integer getProtocol() {
-        return protocol;
-    }
-
-    public PacketInformation protocol(Integer protocol) {
-        this.protocol = protocol;
-        return this;
-    }
-
-    public void setProtocol(Integer protocol) {
-        this.protocol = protocol;
-    }
-
     public Instant getLastModified() {
         return lastModified;
     }
@@ -254,6 +241,19 @@ public class PacketInformation implements Serializable {
 
     public void setLastModified(Instant lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public PacketInformation protocol(String protocol) {
+        this.protocol = protocol;
+        return this;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -293,8 +293,8 @@ public class PacketInformation implements Serializable {
             ", syn='" + getSyn() + "'" +
             ", fin='" + getFin() + "'" +
             ", ack='" + getAck() + "'" +
-            ", protocol=" + getProtocol() +
             ", lastModified='" + getLastModified() + "'" +
+            ", protocol='" + getProtocol() + "'" +
             "}";
     }
 }

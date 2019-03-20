@@ -84,11 +84,11 @@ public class PacketInformationResourceIntTest {
     private static final String DEFAULT_ACK = "AAAAAAAAAA";
     private static final String UPDATED_ACK = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PROTOCOL = 1;
-    private static final Integer UPDATED_PROTOCOL = 2;
-
     private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_PROTOCOL = "AAAAAAAAAA";
+    private static final String UPDATED_PROTOCOL = "BBBBBBBBBB";
 
     @Autowired
     private PacketInformationRepository packetInformationRepository;
@@ -152,8 +152,8 @@ public class PacketInformationResourceIntTest {
             .syn(DEFAULT_SYN)
             .fin(DEFAULT_FIN)
             .ack(DEFAULT_ACK)
-            .protocol(DEFAULT_PROTOCOL)
-            .lastModified(DEFAULT_LAST_MODIFIED);
+            .lastModified(DEFAULT_LAST_MODIFIED)
+            .protocol(DEFAULT_PROTOCOL);
         return packetInformation;
     }
 
@@ -189,8 +189,8 @@ public class PacketInformationResourceIntTest {
         assertThat(testPacketInformation.getSyn()).isEqualTo(DEFAULT_SYN);
         assertThat(testPacketInformation.getFin()).isEqualTo(DEFAULT_FIN);
         assertThat(testPacketInformation.getAck()).isEqualTo(DEFAULT_ACK);
-        assertThat(testPacketInformation.getProtocol()).isEqualTo(DEFAULT_PROTOCOL);
         assertThat(testPacketInformation.getLastModified()).isEqualTo(DEFAULT_LAST_MODIFIED);
+        assertThat(testPacketInformation.getProtocol()).isEqualTo(DEFAULT_PROTOCOL);
 
         // Validate the PacketInformation in Elasticsearch
         verify(mockPacketInformationSearchRepository, times(1)).save(testPacketInformation);
@@ -241,8 +241,8 @@ public class PacketInformationResourceIntTest {
             .andExpect(jsonPath("$.[*].syn").value(hasItem(DEFAULT_SYN.toString())))
             .andExpect(jsonPath("$.[*].fin").value(hasItem(DEFAULT_FIN.toString())))
             .andExpect(jsonPath("$.[*].ack").value(hasItem(DEFAULT_ACK.toString())))
-            .andExpect(jsonPath("$.[*].protocol").value(hasItem(DEFAULT_PROTOCOL)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())));
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].protocol").value(hasItem(DEFAULT_PROTOCOL.toString())));
     }
     
     @Test
@@ -268,8 +268,8 @@ public class PacketInformationResourceIntTest {
             .andExpect(jsonPath("$.syn").value(DEFAULT_SYN.toString()))
             .andExpect(jsonPath("$.fin").value(DEFAULT_FIN.toString()))
             .andExpect(jsonPath("$.ack").value(DEFAULT_ACK.toString()))
-            .andExpect(jsonPath("$.protocol").value(DEFAULT_PROTOCOL))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()));
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.protocol").value(DEFAULT_PROTOCOL.toString()));
     }
 
     @Test
@@ -305,8 +305,8 @@ public class PacketInformationResourceIntTest {
             .syn(UPDATED_SYN)
             .fin(UPDATED_FIN)
             .ack(UPDATED_ACK)
-            .protocol(UPDATED_PROTOCOL)
-            .lastModified(UPDATED_LAST_MODIFIED);
+            .lastModified(UPDATED_LAST_MODIFIED)
+            .protocol(UPDATED_PROTOCOL);
 
         restPacketInformationMockMvc.perform(put("/api/packet-informations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -329,8 +329,8 @@ public class PacketInformationResourceIntTest {
         assertThat(testPacketInformation.getSyn()).isEqualTo(UPDATED_SYN);
         assertThat(testPacketInformation.getFin()).isEqualTo(UPDATED_FIN);
         assertThat(testPacketInformation.getAck()).isEqualTo(UPDATED_ACK);
-        assertThat(testPacketInformation.getProtocol()).isEqualTo(UPDATED_PROTOCOL);
         assertThat(testPacketInformation.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
+        assertThat(testPacketInformation.getProtocol()).isEqualTo(UPDATED_PROTOCOL);
 
         // Validate the PacketInformation in Elasticsearch
         verify(mockPacketInformationSearchRepository, times(1)).save(testPacketInformation);
@@ -402,8 +402,8 @@ public class PacketInformationResourceIntTest {
             .andExpect(jsonPath("$.[*].syn").value(hasItem(DEFAULT_SYN)))
             .andExpect(jsonPath("$.[*].fin").value(hasItem(DEFAULT_FIN)))
             .andExpect(jsonPath("$.[*].ack").value(hasItem(DEFAULT_ACK)))
-            .andExpect(jsonPath("$.[*].protocol").value(hasItem(DEFAULT_PROTOCOL)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())));
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].protocol").value(hasItem(DEFAULT_PROTOCOL)));
     }
 
     @Test

@@ -39,8 +39,8 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 'AAAAAAA',
                 'AAAAAAA',
-                0,
-                currentDate
+                currentDate,
+                'AAAAAAA'
             );
         });
 
@@ -98,8 +98,8 @@ describe('Service Tests', () => {
                         syn: 'BBBBBB',
                         fin: 'BBBBBB',
                         ack: 'BBBBBB',
-                        protocol: 1,
-                        lastModified: currentDate.format(DATE_TIME_FORMAT)
+                        lastModified: currentDate.format(DATE_TIME_FORMAT),
+                        protocol: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -133,8 +133,8 @@ describe('Service Tests', () => {
                         syn: 'BBBBBB',
                         fin: 'BBBBBB',
                         ack: 'BBBBBB',
-                        protocol: 1,
-                        lastModified: currentDate.format(DATE_TIME_FORMAT)
+                        lastModified: currentDate.format(DATE_TIME_FORMAT),
+                        protocol: 'BBBBBB'
                     },
                     elemDefault
                 );

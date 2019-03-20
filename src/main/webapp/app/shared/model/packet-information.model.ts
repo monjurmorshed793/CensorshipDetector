@@ -14,8 +14,8 @@ export interface IPacketInformation {
     syn?: string;
     fin?: string;
     ack?: string;
-    protocol?: number;
     lastModified?: Moment;
+    protocol?: string;
 }
 
 export class PacketInformation implements IPacketInformation {
@@ -33,7 +33,7 @@ export class PacketInformation implements IPacketInformation {
         public syn?: string,
         public fin?: string,
         public ack?: string,
-        public protocol?: number,
-        public lastModified?: Moment
+        public lastModified?: Moment,
+        public protocol?: string
     ) {}
 }

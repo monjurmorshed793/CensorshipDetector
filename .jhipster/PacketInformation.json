@@ -52,12 +52,12 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "protocol",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "lastModified",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "protocol",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20190320145615",
