@@ -23,7 +23,6 @@ public final class HeaderUtil {
         return headers;
     }
 
-
     public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
         return createAlert("A new " + entityName + " is created with identifier " + param, param);
     }

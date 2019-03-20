@@ -8,10 +8,9 @@ import {
     JhiLoginModalComponent,
     HasAnyAuthorityDirective
 } from './';
-import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
-    imports: [CensorshipDetectorSharedLibsModule, CensorshipDetectorSharedCommonModule, NgSelect2Module],
+    imports: [CensorshipDetectorSharedLibsModule, CensorshipDetectorSharedCommonModule],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],

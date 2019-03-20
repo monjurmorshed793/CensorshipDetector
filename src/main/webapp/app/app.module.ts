@@ -6,7 +6,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { FileUploadModule } from 'ng2-file-upload';
 
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
@@ -21,9 +20,6 @@ import { CensorshipDetectorEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
-import { NotifierModule } from 'angular-notifier';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
     imports: [
@@ -34,10 +30,6 @@ import { NgSelect2Module } from 'ng-select2';
             alertAsToast: false,
             alertTimeout: 5000
         }),
-        FileUploadModule,
-        NotifierModule,
-        NgSelect2Module,
-        BrowserAnimationsModule,
         CensorshipDetectorSharedModule.forRoot(),
         CensorshipDetectorCoreModule,
         CensorshipDetectorHomeModule,

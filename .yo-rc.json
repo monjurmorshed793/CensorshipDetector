@@ -1,34 +1,35 @@
 {
-  "generator-jhipster": {
-    "promptValues": {
-      "packageName": "org.censorship"
-    },
-    "jhipsterVersion": "5.8.2",
-    "applicationType": "monolith",
-    "baseName": "CensorshipDetector",
-    "packageName": "org.censorship",
-    "packageFolder": "org/censorship",
-    "serverPort": "8080",
-    "authenticationType": "jwt",
-    "cacheProvider": "no",
-    "websocket": "spring-websocket",
-    "databaseType": "sql",
-    "devDatabaseType": "h2Disk",
-    "prodDatabaseType": "mysql",
-    "searchEngine": "elasticsearch",
-    "messageBroker": false,
-    "serviceDiscoveryType": false,
-    "buildTool": "maven",
-    "enableSwaggerCodegen": false,
-    "jwtSecretKey": "YzY1ODg4MmNiZjE4YWVkODE4NDM0OWY3ZjQ5ZWJjMjBiM2M1N2EyNGIyMjYzYjcxY2Y3OTFlNThkZDZkOTViNDZmMTA3MGVlODlhYzI5MTc1Y2Q2YjZiODliYzhhZDM3YTBmNGU4NmMwM2VjZjdlNGFhMDliMzY5MzNmNDhmNWE=",
-    "clientFramework": "angularX",
-    "useSass": false,
-    "clientPackageManager": "npm",
-    "testFrameworks": [],
-    "jhiPrefix": "jhi",
-    "entitySuffix": "",
-    "dtoSuffix": "DTO",
-    "otherModules": [],
-    "enableTranslation": false
-  }
+    "generator-jhipster": {
+        "promptValues": {
+            "packageName": "org.censorship"
+        },
+        "jhipsterVersion": "5.8.2",
+        "applicationType": "monolith",
+        "baseName": "CensorshipDetector",
+        "packageName": "org.censorship",
+        "packageFolder": "org/censorship",
+        "serverPort": "8080",
+        "authenticationType": "jwt",
+        "cacheProvider": "no",
+        "websocket": "spring-websocket",
+        "databaseType": "sql",
+        "devDatabaseType": "mysql",
+        "prodDatabaseType": "mysql",
+        "searchEngine": "elasticsearch",
+        "messageBroker": false,
+        "serviceDiscoveryType": false,
+        "buildTool": "maven",
+        "enableSwaggerCodegen": false,
+        "jwtSecretKey": "YzY1ODg4MmNiZjE4YWVkODE4NDM0OWY3ZjQ5ZWJjMjBiM2M1N2EyNGIyMjYzYjcxY2Y3OTFlNThkZDZkOTViNDZmMTA3MGVlODlhYzI5MTc1Y2Q2YjZiODliYzhhZDM3YTBmNGU4NmMwM2VjZjdlNGFhMDliMzY5MzNmNDhmNWE=",
+        "clientFramework": "angularX",
+        "useSass": false,
+        "clientPackageManager": "npm",
+        "testFrameworks": [],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "DTO",
+        "otherModules": [],
+        "enableTranslation": false,
+        "enableHibernateCache": false
+    }
 }

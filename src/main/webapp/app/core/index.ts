@@ -10,6 +10,4 @@ export * from './auth/user-route-access-service';
 export * from './login/login-modal.service';
 export * from './login/login.service';
 export * from './user/user.service';
-export * from './file-uploader/file-uploader.service';
-export * from './file-uploader/file-uploader.component';
 export * from './core.module';
