@@ -1,6 +1,7 @@
 package org.censorship.service;
 
 import org.censorship.CensorshipDetectorApp;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -28,6 +29,18 @@ public class DNSCensorshipDetectorServiceTest {
     public void dnsTest() throws Exception{
         CensorshipResponse censorshipResponse = dnsCensorshipDetectorService.detectDNSCensorshipStatus("bdpolitico.com");
         logger.info(censorshipResponse.getMessage());
+    }
+
+    @Test
+    public void refactorWebAddressTest(){
+        String refactoredWebAddress = dnsCensorshipDetectorService.refactorWebAddress("http://bdnews24.com");
+        Assert.assertEquals(refactoredWebAddress, "bdnews24.com");
+
+        refactoredWebAddress = dnsCensorshipDetectorService.refactorWebAddress("https://bdnews24.com");
+        Assert.assertEquals(refactoredWebAddress, "bdnews24.com");
+
+        refactoredWebAddress = dnsCensorshipDetectorService.refactorWebAddress("bdnews24.com/address");
+        Assert.assertEquals(refactoredWebAddress, "bdnews24.com");
     }
 
 }

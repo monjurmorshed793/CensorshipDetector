@@ -1,5 +1,6 @@
 package org.censorship.service;
 
+import org.apache.http.conn.DnsResolver;
 import org.censorship.domain.enumeration.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,24 @@ public class DNSCensorshipDetectorService {
         return censorshipResponse;
     }
 
+    public String refactorWebAddress(String webAddress){
+        webAddress = webAddress.replace("http://","");
+        webAddress = webAddress.replace("https://","");
+        if(webAddress.indexOf("/")>0)
+            webAddress = webAddress.substring(0, webAddress.indexOf("/"));
+
+        return webAddress;
+    }
+
     private boolean checkWhetherIpAddressListIsSameOrNot(String webAddress) throws Exception{
+        webAddress = refactorWebAddress(webAddress);
         List<String> hostIpAddresses = resolveIpAddresses(webAddress);
         List<String> cloudIpAddresses = resolveIpAddressesFromCloud(webAddress);
         return hostIpAddresses.containsAll(cloudIpAddresses);
     }
 
-    private List<String> resolveIpAddresses(String webAddress)throws Exception{
+    public List<String> resolveIpAddresses(String webAddress)throws Exception{
+        webAddress = refactorWebAddress(webAddress);
         InetAddress[] addresses = InetAddress.getAllByName(webAddress);
         List<InetAddress> addressList = Arrays.asList(addresses);
         return addressList.stream().map(a->a.getHostAddress()).collect(Collectors.toList());
@@ -53,4 +65,6 @@ public class DNSCensorshipDetectorService {
         ResponseEntity<List<String >> ipAddressList = restTemplate.exchange("https://censorship-test.azurewebsites.net/resolve?address=" + webAddress, HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {});
         return ipAddressList.getBody();
     }
+
+
 }

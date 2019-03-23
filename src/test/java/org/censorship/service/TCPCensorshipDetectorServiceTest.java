@@ -1,6 +1,7 @@
 package org.censorship.service;
 
 import org.censorship.CensorshipDetectorApp;
+import org.censorship.domain.PacketInformation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.pcap4j.core.PcapNetworkInterface;
@@ -32,5 +33,20 @@ public class TCPCensorshipDetectorServiceTest {
     @Test
     public void sniffPacketsTest() throws Exception{
         tcpCensorshipDetectorService.sniffPackets();
+    }
+
+    @Test
+    public void fetchPacketInformationOfAWebAddress() throws Exception{
+        tcpCensorshipDetectorService.sniffPackets();
+        List<PacketInformation> packetInformationList = tcpCensorshipDetectorService.fetchPacketInformationOfAWebAddress("bdpolitico.com");
+        packetInformationList.forEach(p->{
+            System.out.println(p.toString());
+        });
+    }
+
+
+    @Test
+    public void sendArpRequestTest() throws Exception{
+        tcpCensorshipDetectorService.sendArpRequest("192.168.1.103", "54.251.166.58");
     }
 }
