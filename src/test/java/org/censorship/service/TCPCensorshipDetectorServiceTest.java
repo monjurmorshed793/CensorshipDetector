@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.InetAddress;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -47,6 +48,6 @@ public class TCPCensorshipDetectorServiceTest {
 
     @Test
     public void sendArpRequestTest() throws Exception{
-        tcpCensorshipDetectorService.sendArpRequest("192.168.1.103", "54.251.166.58");
+        tcpCensorshipDetectorService.sendArpRequest(InetAddress.getLocalHost().getHostAddress(), "104.28.0.128");
     }
 }
