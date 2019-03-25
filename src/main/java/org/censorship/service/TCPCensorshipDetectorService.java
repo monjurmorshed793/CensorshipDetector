@@ -80,7 +80,7 @@ public class TCPCensorshipDetectorService {
         handle = device.openLive(snapShotLength, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, readTimeout);
         handle.setFilter("tcp", BpfProgram.BpfCompileMode.OPTIMIZE);
         PacketListener listener = (p)->{
-            if(p.equals(ArpPacket.class))
+            if(p.contains(ArpPacket.class))
             {
                 log.info("Arp packet found :D :D :D :D");
             }
@@ -224,12 +224,14 @@ public class TCPCensorshipDetectorService {
                     @Override
                     public void gotPacket(Packet packet) {
                         if (packet.contains(ArpPacket.class)) {
+                            log.info("Found arp packet*********************************");
+                            log.info(packet.toString());
+
                             ArpPacket arp = packet.get(ArpPacket.class);
                             if (arp.getHeader().getOperation().equals(ArpOperation.REPLY)) {
                                 TCPCensorshipDetectorService.resolvedAddr = arp.getHeader().getSrcHardwareAddr();
                             }
                         }
-                        log.info(packet.toString());
                     }
                 };
 
