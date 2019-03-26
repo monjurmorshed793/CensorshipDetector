@@ -47,9 +47,9 @@ public class CensorshipDetectorApp {
      */
     @PostConstruct
     public void initApplication() throws Exception {
-        //tcpCensorshipDetectorService.sniffPackets();
+//        tcpCensorshipDetectorService.sniffPackets();
         //tcpCensorshipDetectorService.testAllWebAddress();
-        tcpCensorshipDetectorService.sendArpRequest("172.16.51.202", "104.28.0.128");
+   //     tcpCensorshipDetectorService.sendArpRequest(InetAddress.getLocalHost().getHostAddress(), "104.28.0.128");
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)) {
             log.error("You have misconfigured your application! It should not run " +

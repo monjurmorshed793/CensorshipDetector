@@ -9,6 +9,7 @@ import org.pcap4j.core.*;
 import org.pcap4j.packet.*;
 import org.pcap4j.packet.namednumber.*;
 import org.pcap4j.util.ByteArrays;
+import org.pcap4j.util.IpV4Helper;
 import org.pcap4j.util.MacAddress;
 import org.pcap4j.util.NifSelector;
 import org.slf4j.Logger;
@@ -106,6 +107,9 @@ public class TCPCensorshipDetectorService {
                 log.info(arpPacket.toString());
             }else{
                 log.info("No Arp Packet");
+                IpV4Packet packets = packet.get(IpV4Packet.class);
+                log.info("source --->"+packets.getHeader().getSrcAddr().toString());
+                log.info("destination --->"+packets.getHeader().getDstAddr().toString());
 
             }
             /*if (packet.contains(IpV4Packet.class)) {
@@ -198,7 +202,96 @@ public class TCPCensorshipDetectorService {
     }
 
 
-    @Async
+    public void sendFrangmentedEcho(String destinationIpAddress) throws Exception{
+        PcapNetworkInterface nif = detectNetworkDevices().get(0);
+        NetworkDevice networkDevice = new NetworkDevice(nif.getLinkLayerAddresses().get(0).toString(), nif.getAddresses());
+        PcapHandle handle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
+        PcapHandle sendHandle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
+        MacAddress sourceMacAddress = MacAddress.getByName(networkDevice.getHardwareAddress(),":");
+        handle.setFilter(
+            "icmp and ether dst " + Pcaps.toBpfString(sourceMacAddress), BpfProgram.BpfCompileMode.OPTIMIZE);
+
+        PacketListener listener=(packet -> {
+           log.info(packet.toString());
+        });
+
+        Task t = new Task(handle, listener);
+        ExecutorService pool = Executors.newSingleThreadExecutor();
+        pool.execute(t);
+
+
+        byte[] echoData = new byte[TU - 28];
+        for (int i = 0; i < echoData.length; i++) {
+            echoData[i] = (byte) i;
+        }
+        IcmpV4EchoPacket.Builder echoBuilder = new IcmpV4EchoPacket.Builder();
+        echoBuilder
+            .identifier((short) 1)
+            .payloadBuilder(new UnknownPacket.Builder().rawData(echoData));
+
+
+        IcmpV4CommonPacket.Builder icmpV4CommonBuilder = new IcmpV4CommonPacket.Builder();
+        icmpV4CommonBuilder
+            .type(IcmpV4Type.ECHO)
+            .code(IcmpV4Code.NO_CODE)
+            .payloadBuilder(echoBuilder)
+            .correctChecksumAtBuild(true);
+
+
+        IpV4Packet.Builder ipV4Builder = new IpV4Packet.Builder();
+
+        ipV4Builder
+            .version(IpVersion.IPV4)
+            .tos(IpV4Rfc791Tos.newInstance((byte) 0))
+            .ttl((byte) 100)
+            .protocol(IpNumber.ICMPV4)
+            .srcAddr((Inet4Address) InetAddress.getByName(networkDevice.getIpV4Address()))
+            .dstAddr((Inet4Address) InetAddress.getByName(destinationIpAddress))
+            .payloadBuilder(icmpV4CommonBuilder)
+            .correctChecksumAtBuild(true)
+            .correctLengthAtBuild(true);
+
+        EthernetPacket.Builder etherBuilder = new EthernetPacket.Builder();
+        etherBuilder
+            .dstAddr(MacAddress.ETHER_BROADCAST_ADDRESS)
+            .srcAddr(sourceMacAddress)
+            .type(EtherType.IPV4)
+            .paddingAtBuild(true);
+
+
+
+        for (int i = 0; i < 100; i++) {
+            echoBuilder.sequenceNumber((short) i);
+            ipV4Builder.identification((short) i);
+
+            for (final Packet ipV4Packet : IpV4Helper.fragment(ipV4Builder.build(), MTU)) {
+                etherBuilder.payloadBuilder(
+                    new AbstractPacket.AbstractBuilder() {
+                        @Override
+                        public Packet build() {
+                            return ipV4Packet;
+                        }
+                    });
+
+                Packet p = etherBuilder.build();
+                sendHandle.sendPacket(p);
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    }
+
+
     public void sendArpRequest(String sourceIpAddress, String destinationIpAddress) throws Exception, PcapNativeException, NotOpenException{
 
 
@@ -206,7 +299,7 @@ public class TCPCensorshipDetectorService {
         PcapHandle handle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
         PcapHandle sendHandle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
         ExecutorService pool = Executors.newSingleThreadExecutor();
-
+        NetworkDevice networkDevice = new NetworkDevice(nif.getLinkLayerAddresses().get(0).toString(), nif.getAddresses());
         MacAddress sourceMacAddress = MacAddress.getByAddress( NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress());
         try{
 
@@ -246,8 +339,8 @@ public class TCPCensorshipDetectorService {
                 .hardwareAddrLength((byte) MacAddress.SIZE_IN_BYTES)
                 .protocolAddrLength((byte) ByteArrays.INET4_ADDRESS_SIZE_IN_BYTES)
                 .operation(ArpOperation.REQUEST)
-                .srcHardwareAddr(MacAddress.getByAddress( NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress()))
-                .srcProtocolAddr(InetAddress.getByName(sourceIpAddress))
+                .srcHardwareAddr(MacAddress.getByName(networkDevice.getHardwareAddress(), ":"))
+                .srcProtocolAddr(InetAddress.getByName(networkDevice.getIpV4Address()))
                 .dstHardwareAddr(MacAddress.ETHER_BROADCAST_ADDRESS)
                 .dstProtocolAddr(InetAddress.getByName(destinationIpAddress));
         } catch (UnknownHostException e) {
@@ -257,20 +350,20 @@ public class TCPCensorshipDetectorService {
         EthernetPacket.Builder etherBuilder = new EthernetPacket.Builder();
         etherBuilder
             .dstAddr(MacAddress.ETHER_BROADCAST_ADDRESS)
-            .srcAddr(MacAddress.getByAddress( NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress()))
+            .srcAddr(MacAddress.getByName( networkDevice.getHardwareAddress(),":"))
             .type(EtherType.ARP)
             .payloadBuilder(arpBuilder)
             .paddingAtBuild(true);
 
         for (int i = 0; i <=1000; i++) {
             Packet p = etherBuilder.build();
-            //System.out.println(p);
+            System.out.println(p);
             log.info("Sending packet----->");
             sendHandle.sendPacket(p);
             Thread.sleep(1000);
         }
     } finally {
-        if (handle != null && handle.isOpen()) {
+       /* if (handle != null && handle.isOpen()) {
             handle.close();
         }
         if (sendHandle != null && sendHandle.isOpen()) {
@@ -279,7 +372,7 @@ public class TCPCensorshipDetectorService {
         if (pool != null && !pool.isShutdown()) {
             pool.shutdown();
         }
-
+*/
         System.out.println(destinationIpAddress + " was resolved to " + resolvedAddr);
     }
 

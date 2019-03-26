@@ -12,7 +12,14 @@
 # Full reference is available at:
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
-
+org:
+    pcap4j:
+        af:
+            inet: 2
+            inet6: 10
+            packet: 17
+            link: 18
+            raw: 12
 
 logging:
     level:

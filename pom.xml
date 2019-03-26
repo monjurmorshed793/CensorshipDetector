@@ -357,11 +357,16 @@
             <version>1.7.5</version>
         </dependency>
         <dependency>
-            <groupId>org.nmap4j</groupId>
-            <artifactId>org.nmap4j</artifactId>
-            <version>1.0.4</version>
-            <type>pom</type>
+            <groupId>org.slick2d</groupId>
+            <artifactId>slick2d-core</artifactId>
+            <version>1.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.pvdberg1998</groupId>
+            <artifactId>pnet</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+
 
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>

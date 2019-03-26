@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.List;
 
@@ -48,6 +50,24 @@ public class TCPCensorshipDetectorServiceTest {
 
     @Test
     public void sendArpRequestTest() throws Exception{
-        tcpCensorshipDetectorService.sendArpRequest(InetAddress.getLocalHost().getHostAddress(), "104.28.0.128");
+        tcpCensorshipDetectorService.sendArpRequest(InetAddress.getLocalHost().getHostAddress(), "52.76.52.247");
+    }
+
+    @Test
+    public void sendEchoRequestTest() throws Exception{
+        tcpCensorshipDetectorService.sendFrangmentedEcho("54.251.166.58");
+    }
+
+    @Test
+    public void sendPingTest() throws Exception{
+        Process p1 = Runtime.getRuntime().exec("nmap -Pn bdpolitico.com");
+        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p1.getInputStream()));
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(p1.getErrorStream()));
+
+        String s = null;
+        while((s=stdInput.readLine())!=null){
+            System.out.println(s);
+        }
+
     }
 }
