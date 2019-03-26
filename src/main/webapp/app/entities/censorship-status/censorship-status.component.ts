@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ICensorshipStatus } from 'app/shared/model/censorship-status.model';
@@ -13,6 +13,7 @@ import { CensorshipStatusService } from './censorship-status.service';
 import { IspService } from 'app/entities/isp';
 import { IIsp, Isp } from 'app/shared/model/isp.model';
 import { Select2OptionData } from 'ng-select2';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jhi-censorship-status',
@@ -32,6 +33,9 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
     totalItems: number;
     currentSearch: string;
     ispMap: { [key: number]: IIsp };
+    @ViewChild('instance') instance: NgbTypeahead;
+    focus$ = new Subject<IIsp>();
+    click$ = new Subject<IIsp>();
 
     constructor(
         protected censorshipStatusService: CensorshipStatusService,
@@ -57,6 +61,19 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
     }
+
+    searchIsp = (text$: Observable<IIsp>) => {
+        const debouncedText$ = text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged()
+        );
+        const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+        const inputFocus$ = this.focus$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(term => (term === '' ? this.ispList : this.ispList.filter(v => v.id)).slice(0, 10))
+        );
+    };
 
     loadAllIspList() {
         this.ispService
@@ -109,6 +126,8 @@ export class CensorshipStatusComponent implements OnInit, OnDestroy {
         this.page = page;
         this.loadAll();
     }
+
+    detectCensorship() {}
 
     clear() {
         this.censorshipStatuses = [];

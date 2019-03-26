@@ -5,8 +5,10 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ICensorshipStatus } from 'app/shared/model/censorship-status.model';
+import { IIsp } from 'app/shared/model/isp.model';
 
 type EntityResponseType = HttpResponse<ICensorshipStatus>;
+type EntityStatusResponseType = HttpResponse<Boolean>;
 type EntityArrayResponseType = HttpResponse<ICensorshipStatus[]>;
 
 @Injectable({ providedIn: 'root' })
@@ -26,6 +28,10 @@ export class CensorshipStatusService {
 
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<ICensorshipStatus>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    prepareData(isp: IIsp): Observable<EntityStatusResponseType> {
+        return this.http.get<Boolean>(`${this.resourceUrl}/prepare-data/${isp.id}`, { observe: 'response' });
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {
