@@ -3,6 +3,7 @@ import org.censorship.domain.CensorshipStatus;
 import org.censorship.repository.CensorshipStatusRepository;
 import org.censorship.repository.WebAddressRepository;
 import org.censorship.repository.search.CensorshipStatusSearchRepository;
+import org.censorship.service.CensorshipStatusService;
 import org.censorship.web.rest.errors.BadRequestAlertException;
 import org.censorship.web.rest.util.HeaderUtil;
 import org.censorship.web.rest.util.PaginationUtil;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional; 
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -46,10 +48,14 @@ public class CensorshipStatusResource {
 
     private final WebAddressRepository webAddressRepository;
 
-    public CensorshipStatusResource(CensorshipStatusRepository censorshipStatusRepository, CensorshipStatusSearchRepository censorshipStatusSearchRepository, WebAddressRepository webAddressRepository) {
+    private final CensorshipStatusService censorshipStatusService;
+
+
+    public CensorshipStatusResource(CensorshipStatusRepository censorshipStatusRepository, CensorshipStatusSearchRepository censorshipStatusSearchRepository, WebAddressRepository webAddressRepository, CensorshipStatusService censorshipStatusService) {
         this.censorshipStatusRepository = censorshipStatusRepository;
         this.censorshipStatusSearchRepository = censorshipStatusSearchRepository;
         this.webAddressRepository = webAddressRepository;
+        this.censorshipStatusService = censorshipStatusService;
     }
 
     /**
@@ -112,6 +118,13 @@ public class CensorshipStatusResource {
         Page<CensorshipStatus> page = censorshipStatusRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/censorship-statuses");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/censorship-statuses/prepare-data/{ispId}")
+    @Transactional
+    public ResponseEntity<Boolean> prepareData(@PathParam("ispId") Long ispId) throws Exception{
+        log.debug("REST request to prepare censorship data");
+        return ResponseEntity.ok().body(censorshipStatusService.prepareInitialData());
     }
 
     /**

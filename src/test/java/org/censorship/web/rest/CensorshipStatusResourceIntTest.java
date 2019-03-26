@@ -8,6 +8,7 @@ import org.censorship.domain.Isp;
 import org.censorship.repository.CensorshipStatusRepository;
 import org.censorship.repository.WebAddressRepository;
 import org.censorship.repository.search.CensorshipStatusSearchRepository;
+import org.censorship.service.CensorshipStatusService;
 import org.censorship.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -91,10 +92,12 @@ public class CensorshipStatusResourceIntTest {
 
     private CensorshipStatus censorshipStatus;
 
+    private CensorshipStatusService censorshipStatusService;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CensorshipStatusResource censorshipStatusResource = new CensorshipStatusResource(censorshipStatusRepository, mockCensorshipStatusSearchRepository, webAddressRepository);
+        final CensorshipStatusResource censorshipStatusResource = new CensorshipStatusResource(censorshipStatusRepository, mockCensorshipStatusSearchRepository, webAddressRepository, censorshipStatusService);
         this.restCensorshipStatusMockMvc = MockMvcBuilders.standaloneSetup(censorshipStatusResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

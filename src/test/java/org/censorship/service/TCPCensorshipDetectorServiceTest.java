@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -69,5 +71,26 @@ public class TCPCensorshipDetectorServiceTest {
             System.out.println(s);
         }
 
+    }
+
+    @Test
+    public void testOONI()throws Exception{
+        Process process = Runtime.getRuntime().exec("ooniprobe web_connectivity --url http://bdpolitico.com");
+        BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+        String s = null;
+        int lineCounter=0;
+        while((s=stdInput.readLine())!=null){
+            lineCounter+=1;
+
+            System.out.println(lineCounter+"---->"+ s);
+        }
+    }
+
+    @Test
+    public void startTCPConnection() throws Exception{
+        Socket clientSocket = new Socket(InetAddress.getByName("54.251.163.189"), 80);
+        clientSocket.close();
     }
 }

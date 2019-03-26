@@ -72,6 +72,59 @@ public class TCPCensorshipDetectorService {
         return allDevices;
     }
 
+
+    public boolean sniffStoredWebAddress() throws Exception{
+        PcapNetworkInterface networkInterface = detectNetworkDevices().get(0);
+        NetworkDevice networkDevice = new NetworkDevice(networkInterface.getLinkLayerAddresses().get(0).toString(), networkInterface.getAddresses());
+        PcapHandle handle = networkInterface.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
+        ExecutorService pool = Executors.newSingleThreadExecutor();
+
+        PacketListener listener = packet -> {
+          if(packet.contains(TcpPacket.class) || packet.contains(IpV4Packet.class)){
+              TcpPacket tcpPacket = packet.get(TcpPacket.class);
+              IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
+              insertIntoPacketInformation(tcpPacket, ipV4Packet);
+          }
+        };
+
+        Task task = new Task(handle, listener);
+        pool.execute(task);
+
+        packetInformationRepository.deleteAll();
+        List<WebAddress> webAddressList = webAddressRepository.findAll();
+        Boolean finishStatus = true;
+        try{
+            webAddressList.parallelStream().forEach(a->{
+                try{
+                    List<String> ipList = dnsCensorshipDetectorService.resolveIpAddresses(a.getName());
+                    for(String ipAddress: ipList){
+                        try{
+                            int port= a.getName().contains("https")? 443: 80;
+                            Socket clientSocket = new Socket(InetAddress.getByName(ipAddress), port);
+                            if(clientSocket.isConnected())
+                                clientSocket.close();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+            finishStatus = false;
+        }
+        finally {
+            if(handle!=null && handle.isOpen())
+                handle.close();
+            if(pool!=null  && !pool.isShutdown())
+                pool.shutdown();
+        }
+
+        return finishStatus;
+    }
+
     @Async
     public void sniffPackets() throws Exception{
         int snapShotLength = 65536;
